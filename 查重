@@ -1,0 +1,40 @@
+import os
+from docx import Document
+import pandas as pd
+
+FOLDER = r"D:\学院"
+OUTPUT = r"D:\学院\articles_from_docx.csv"
+
+rows = []
+for name in os.listdir(FOLDER):
+    if not name.lower().endswith(".docx"):
+        continue
+    if name.startswith("~$"):          # 跳过 Word 临时文件
+        continue
+    path = os.path.join(FOLDER, name)
+    try:
+        doc = Document(path)
+        paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
+        for table in doc.tables:        # 顺带提取表格文字
+            for row in table.rows:
+                for cell in row.cells:
+                    if cell.text.strip():
+                        paragraphs.append(cell.text.strip())
+        content = "\n".join(paragraphs)
+        title = os.path.splitext(name)[0]
+        rows.append({
+            "id": len(rows) + 1,
+            "title": title,
+            "content": content,
+            "url": "",
+            "college": "",
+            "publish_time": "",
+            "source_file": name,
+        })
+    except Exception as e:
+        print("读取失败:", name, e)
+
+df = pd.DataFrame(rows)
+df.to_csv(OUTPUT, index=False, encoding="utf-8-sig")
+print("共读取 docx 文件数:", len(df))
+print("输出:", OUTPUT)

@@ -1,0 +1,34 @@
+import requests
+API_KEY = "ffe18568c828454aba8292e4009003c1.i7JBPffPF26LUumw"
+
+url = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json"
+}
+
+print(" 欢迎使用 AI 对话程序")
+print("（按下 'esc' 就可以结束程序）\n")
+
+while True:
+    user_input = input("你问：")
+    
+    if user_input in ["esc",]:
+        print("AI：再见！")
+        break
+        
+    data = {
+        "model": "glm-4-flash",
+        "messages": [{"role": "user", "content": user_input}]
+    }
+
+    print("AI 正在思考...")
+    
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        result = response.json()
+        ai_reply = result['choices'][0]['message']['content']
+        print(f"AI 回答：{ai_reply}\n")
+        
+    except Exception as e:
+        print("出错了！可能是你的钥匙没填对，或者网络不好。\n")
