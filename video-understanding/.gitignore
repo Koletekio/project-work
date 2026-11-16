@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+node_modules/
+.pnpm-store/
+.store/
+/server/uploads/
+/models/
+.env
+.env.*
+access-code.txt
+*.log
+*.safetensors
+*.gguf
+*.mp4
+*.mp3
+*.mov

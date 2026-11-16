@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B0A1F">
+  <title>视频理解与问答</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --night: #0b0a1f;
+      --indigo: #14102b;
+      --ink: #f0edf8;
+      --muted: #b7b0cb;
+      --line: rgb(255 255 255 / 12%);
+      --cyan: #7de3e0;
+      --violet: #a78bfa;
+      --aurora: linear-gradient(110deg, var(--cyan), var(--violet));
+      --display: Georgia, "Noto Serif SC", "Songti SC", STSong, SimSun, serif;
+      --surface: rgb(25 20 48 / 60%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { position: relative; margin: 0; min-height: 100vh; color: var(--ink); background: linear-gradient(141deg, var(--night), var(--indigo)); font: 16px/1.65 system-ui, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+    body::after { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: .04; background: url("data:image/png;base64,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") repeat; }
+    main { position: relative; z-index: 1; width: min(1120px, calc(100% - 112px)); margin: auto; }
+    #hero-scene, #hero-orb-controls {
+      position: fixed; left: var(--hero-orb-x, 34.5%);
+      top: var(--hero-orb-y, min(clamp(550px, 66svh, 670px), calc(100svh - 110px)));
+      width: calc(clamp(250px, 26vw, 354px) * var(--hero-orb-zoom, 1)); aspect-ratio: 1;
+      transform: translate(-50%, -50%); pointer-events: none;
+    }
+    #hero-scene { z-index: 0; opacity: .97; transition: opacity 450ms ease-out; }
+    #hero-scene canvas { display: block; pointer-events: none; }
+    #hero-scene.is-outside-hero { opacity: 0; }
+    #hero-orb-controls { display: grid; place-items: center; z-index: 2; }
+    #hero-orb-controls .hero-orb-grip {
+      visibility: hidden; pointer-events: none; appearance: none; padding: 0;
+      width: 49%; aspect-ratio: 1; border: 0; border-radius: 50%; background: transparent;
+      cursor: grab; touch-action: none; user-select: none; transition: none;
+    }
+    #hero-scene.is-ready:not(.is-outside-hero) + #hero-orb-controls .hero-orb-grip {
+      visibility: visible; pointer-events: auto;
+    }
+    #hero-orb-controls .hero-orb-grip:hover { background: transparent; }
+    #hero-orb-controls .hero-orb-grip:active { transform: none; }
+    #hero-orb-controls .hero-orb-grip.is-grabbing { cursor: grabbing; }
+    .star-sea { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .star-sea i {
+      position: absolute; left: var(--x); top: var(--y); width: var(--size); height: var(--size);
+      border-radius: 50%; color: #eeecff; background: currentColor; opacity: var(--opacity);
+      box-shadow: 0 0 5px currentColor; filter: blur(.35px);
+      animation: star-swell var(--period) ease-in-out var(--phase) infinite;
+      translate: var(--pointer-x, 0px) var(--pointer-y, 0px);
+      transition: translate 560ms cubic-bezier(.22, 1, .36, 1);
+    }
+    .star-sea i:nth-child(4n + 2) { color: var(--cyan); }
+    .star-sea i:nth-child(4n + 3) { color: var(--violet); }
+    .star-sea i:nth-child(3n) { box-shadow: 0 0 8px currentColor; filter: blur(.65px); }
+    @keyframes star-swell {
+      0%, 100% { transform: translate3d(-5px, 0, 0); }
+      25% { transform: translate3d(1px, calc(0px - var(--swell)), 0); }
+      50% { transform: translate3d(8px, 0, 0); }
+      75% { transform: translate3d(2px, var(--swell), 0); }
+    }
+    h1, h2 { font-family: var(--display); font-weight: 600; letter-spacing: .04em; line-height: 1.25; }
+    h1 { font-size: clamp(38px, 5.1vw, 76px); margin: 0 0 24px; }
+    h2 { margin: 0 0 24px; font-size: clamp(26px, 3vw, 38px); }
+    .intro.rb-display { font-family: var(--display); font-weight: 500; font-size: 32px; line-height: 1.36; letter-spacing: .04em; max-width: none; }
+    .rb-magnet-anchor { display: inline-block; width: fit-content; }
+    #rb-glare { position: absolute; inset: 0; z-index: 2; overflow: hidden; border-radius: inherit; pointer-events: none; }
+    #rb-glare .rb-glare { position: absolute; inset: 0; border: 0; }
+    .workspace { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 34fr) minmax(0, 66fr); align-items: center; gap: clamp(32px, 6vw, 96px); padding-block: 96px; }
+    .workspace-copy { min-width: 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 27px; color: var(--cyan); font-size: 12px; font-weight: 700; letter-spacing: .16em; }
+    .brand::before { content: ""; inline-size: 8px; block-size: 8px; transform: rotate(45deg); border: 1px solid currentColor; }
+    .intro { color: var(--muted); margin: 0 0 14px; max-width: 30ch; }
+    .intro-char { will-change: transform, opacity, filter; }
+    #horizon-line { display: block; width: 132px; height: 9px; margin-bottom: 15px; overflow: visible; }
+    #horizon-line path { fill: none; stroke: url(#horizon-ink); stroke-linecap: round; stroke-width: 1; }
+    @media (min-width: 831px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      main { min-height: calc(100svh + 104px); }
+    }
+    /* __MOUNTAIN_CSS__ */
+    .file-tools { display: grid; gap: 12px; align-items: start; }
+    .file-picker { position: relative; display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .file-picker input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .file-picker label { display: inline-flex; align-items: center; flex: none; }
+    .file-picker input:focus-visible + label { outline: 2px solid var(--cyan); outline-offset: 4px; }
+    .file-picker input:disabled + label { color: var(--muted); cursor: default; }
+    .file-picker span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 14px; }
+    button, .file-picker label { min-height: 44px; border: 1px solid var(--line); border-radius: 6px; padding: 9px 16px; background: rgb(255 255 255 / 5%); color: var(--ink); font: inherit; font-size: 14px; font-weight: 650; cursor: pointer; transition: background-color 200ms ease-out, border-color 200ms ease-out, transform 200ms ease-out, filter 200ms ease-out; }
+    button:disabled { cursor: default; color: var(--muted); }
+    button:not(:disabled):hover, .file-picker input:not(:disabled) + label:hover { background-color: rgb(255 255 255 / 10%); border-color: rgb(255 255 255 / 25%); }
+    button:not(:disabled):active { transform: translateY(1px); }
+    :is(button, input, select):focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+    .primary { width: fit-content; color: var(--night); border-color: transparent; background: var(--aurora); }
+    .primary:not(:disabled):hover { filter: brightness(1.10); }
+    .primary:disabled { background: #302943; color: var(--muted); }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .status { color: var(--muted); margin: 0; min-height: 1.65em; font-size: 14px; }
+    progress { appearance: none; width: 100%; height: 4px; border: 0; border-radius: 20px; overflow: hidden; color: var(--cyan); background: #39314e; }
+    progress::-webkit-progress-bar { background: #39314e; }
+    progress::-webkit-progress-value { background: var(--aurora); transition: width 200ms ease-out; }
+    progress::-moz-progress-bar { background: var(--aurora); }
+
+    .screen { position: relative; isolation: isolate; min-width: 0; }
+    .screen-light { position: absolute; inset: -20% -9%; z-index: -1; overflow: hidden; pointer-events: none; mask-image: radial-gradient(ellipse at center, #fff 42%, transparent 73%); }
+    .screen-light::before, .screen-light::after { content: ""; position: absolute; inset: 0; animation: breathe 10s ease-in-out infinite; }
+    .screen-light::before { background: radial-gradient(ellipse at 34% 46%, rgb(125 227 224 / 14%), transparent 67%); }
+    .screen-light::after { background: radial-gradient(ellipse at 70% 58%, rgb(167 139 250 / 16%), transparent 67%); animation-delay: -5s; }
+    @keyframes breathe { 0%, 100% { opacity: .67; transform: scale(.99); } 50% { opacity: 1; transform: scale(1.035); } }
+    .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; backdrop-filter: blur(16px); }
+    .screen-panel { position: relative; overflow: hidden; transition: border-color 200ms ease-out; }
+    .screen-panel:has(video:focus-visible), .screen-panel.is-seeking { border-color: var(--cyan); }
+    .screen-label { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 13px 18px; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--line); }
+    .screen-label span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+    .screen-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #100d24; }
+    video { display: block; width: 100%; height: 100%; background: #100d24; }
+    video:not([src]) { visibility: hidden; }
+    .screen-empty { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 17px; text-align: center; color: var(--muted); font-size: 14px; padding: 15px; background: radial-gradient(ellipse at center, #241b3b, #100d24 73%); pointer-events: none; }
+    .frame-mark { display: grid; place-items: center; width: 74px; height: 55px; outline: 1px solid rgb(255 255 255 / 25%); outline-offset: 6px; border: 1px solid var(--line); border-radius: 2px; }
+    .frame-mark::before { content: ""; width: 0; height: 0; border-block: 7px solid transparent; border-left: 11px solid var(--cyan); margin-left: 3px; }
+
+    .results { padding-block: 96px; border-top: 1px solid var(--line); display: grid; gap: 40px; align-items: start; }
+    .results:has(#video-qa[hidden]):has(#timeline[hidden]) { display: none; }
+    .results:has(#video-qa:not([hidden])) { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    #question-thread, #segments { list-style: none; margin: 0; padding: 0; }
+    #question-thread:empty, .citation-buttons:empty { display: none; }
+    #question-thread li, #segments li { padding: 16px 0; border-top: 1px solid var(--line); }
+    #segments li { display: grid; grid-template-columns: max-content minmax(0, 1fr); align-items: start; gap: 16px; transition: background-color 200ms ease-out; }
+    #segments li:has(button[aria-current="true"]) { background-color: rgb(125 227 224 / 6%); }
+    #segments button, .citation-buttons button { white-space: nowrap; color: var(--cyan); font-variant-numeric: tabular-nums; }
+    #segments button[aria-current="true"], .citation-buttons button[aria-current="true"] { border-color: var(--cyan); }
+    .description { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .muted { color: var(--muted); }
+    .error { color: #ffc1cb; }
+    #question-form { display: grid; gap: 10px; }
+    #question-form label { display: block; font-size: 14px; color: var(--muted); }
+    #question, #question-scope { width: 100%; min-height: 44px; min-width: 0; padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; font: inherit; color: var(--ink); background: #17132d; }
+    #question-entry { position: relative; min-width: 0; }
+    #question { display: block; }
+    #question::placeholder { color: var(--muted); }
+    #question-glyphs {
+      position: absolute;
+      inset: 1px 13px;
+      display: none;
+      align-items: center;
+      overflow: hidden;
+      pointer-events: none;
+      user-select: none;
+      color: var(--ink);
+      white-space: pre;
+    }
+    #question.is-animating { color: transparent; caret-color: var(--ink); }
+    #question.is-animating + #question-glyphs { display: flex; }
+    .question-glyph {
+      display: inline-block;
+      animation: question-glyph-rise 210ms cubic-bezier(.23, 1, .32, 1) both;
+    }
+    @keyframes question-glyph-rise {
+      from { transform: translateY(7px); }
+      to { transform: translateY(0); }
+    }
+    #question-entry::after {
+      content: "";
+      position: absolute;
+      inset: auto 12px 1px;
+      height: 1px;
+      background: var(--aurora);
+      pointer-events: none;
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 240ms cubic-bezier(.23, 1, .32, 1), opacity 180ms ease-out;
+    }
+    #question-entry:focus-within::after { opacity: .68; transform: scaleX(.46); }
+    #question-entry:has(#question:focus:not(:placeholder-shown))::after { opacity: .95; transform: scaleX(1); }
+    .citation-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 10px; font-size: 13px; color: var(--muted); }
+    .revealed { animation: reveal 220ms ease-out both; }
+    @keyframes reveal { from { opacity: .45; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    #rb-splash .splash-cursor { opacity: .17; transition: opacity 160ms ease-out; }
+    #rb-splash:has(.cursor-particle, .scroll-meteor) .splash-cursor { opacity: 0; }
+    .scroll-meteors { position: fixed; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; }
+    .scroll-meteor { animation: scroll-meteor-dive 680ms linear both; }
+    @keyframes scroll-meteor-dive {
+      from { transform: perspective(420px) translateZ(-38px) rotateX(-8deg) rotateY(-10deg) rotateZ(-5deg); }
+      to { transform: perspective(420px) translateZ(52px) rotateX(8deg) rotateY(10deg) rotateZ(6deg); }
+    }
+    .cursor-particles { position: fixed; inset: 0; z-index: 4; pointer-events: none; overflow: hidden; }
+    .cursor-particle {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 2px;
+      background: linear-gradient(145deg, #f2e5c9, #9e92ba);
+      box-shadow: 0 0 5px rgb(232 217 176 / 32%);
+      animation: cursor-particle-flight var(--life) cubic-bezier(.22, .7, .23, 1) both;
+    }
+    .cursor-particle:nth-child(3n) { background: linear-gradient(145deg, #bdd7de, #8c90bb); }
+    @keyframes cursor-particle-flight {
+      0% { opacity: .1; transform: perspective(180px) translate3d(-50%, -50%, 0) rotateY(0deg); }
+      15% { opacity: .72; }
+      100% { opacity: 0; transform: perspective(180px) translate3d(var(--dx), var(--dy), var(--dz)) rotateY(var(--tilt)); }
+    }
+
+    @media (max-width: 830px) {
+      #hero-scene, #hero-orb-controls {
+        left: var(--hero-orb-x, 74%); top: var(--hero-orb-y, clamp(370px, 52svh, 500px));
+        width: calc(clamp(155px, 48vw, 223px) * var(--hero-orb-zoom, 1));
+      }
+      #hero-scene { opacity: .92; }
+      main { width: calc(100% - 48px); }
+      .workspace { grid-template-columns: 1fr; gap: 32px; }
+      .results:has(#video-qa:not([hidden])) { grid-template-columns: 1fr; }
+      .screen-light { inset: -12% -16px; }
+    }
+    @media (max-width: 460px) {
+      main { width: calc(100% - 40px); }
+      #segments li { grid-template-columns: 1fr; justify-items: start; gap: 5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      button:not(:disabled):active { transform: none; }
+    }
+  </style>
+  <style>.variable-proximity{font-family:inherit}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.splash-cursor{position:fixed;inset:0;pointer-events:none}.splash-cursor[data-contained]{position:absolute}.splash-cursor__canvas{display:block;width:100%;height:100%}.glare-hover{position:relative;display:inline-grid;vertical-align:top;place-items:center;width:var(--gh-width);height:var(--gh-height);background:var(--gh-bg);border:1px solid var(--gh-border);border-radius:var(--gh-br);overflow:hidden;isolation:isolate}.glare-hover__glare{position:absolute;inset:0;z-index:2;border-radius:inherit;opacity:0;mix-blend-mode:var(--gh-blend);pointer-events:none}.glare-hover__band{position:absolute;top:50%;left:50%;background:var(--gh-glare);will-change:transform}.glare-hover__rim{position:absolute;inset:0;padding:1px;border-radius:inherit;-webkit-mask-image:linear-gradient(#000 0 0),linear-gradient(#000 0 0);-webkit-mask-clip:content-box,border-box;-webkit-mask-composite:xor;mask-image:linear-gradient(#000 0 0),linear-gradient(#000 0 0);mask-clip:content-box,border-box;mask-composite:exclude}.glare-hover__band--rim{background:var(--gh-rim)}
+</style>
+</head>
+<body>
+  <!-- __MOUNTAIN_HORIZON__ -->
+  <div id="hero-scene" aria-hidden="true"></div>
+  <div id="hero-orb-controls"></div>
+  <div class="star-sea" aria-hidden="true">
+    <i style="--x:7%;--y:12%;--size:2px;--opacity:.38;--period:12s;--phase:-1s;--swell:8px"></i>
+    <i style="--x:32%;--y:9%;--size:2px;--opacity:.46;--period:12s;--phase:-4s;--swell:9px"></i>
+    <i style="--x:55%;--y:7%;--size:3px;--opacity:.44;--period:12s;--phase:-7s;--swell:10px"></i>
+    <i style="--x:77%;--y:10%;--size:2px;--opacity:.41;--period:12s;--phase:-9s;--swell:9px"></i>
+    <i style="--x:93%;--y:17%;--size:2px;--opacity:.49;--period:12s;--phase:-11s;--swell:10px"></i>
+    <i style="--x:4%;--y:44%;--size:3px;--opacity:.48;--period:11s;--phase:-2s;--swell:13px"></i>
+    <i style="--x:39%;--y:36%;--size:2px;--opacity:.38;--period:11s;--phase:-4s;--swell:11px"></i>
+    <i style="--x:95%;--y:47%;--size:3px;--opacity:.47;--period:11s;--phase:-9s;--swell:12px"></i>
+    <i style="--x:5%;--y:67%;--size:2px;--opacity:.43;--period:11s;--phase:0s;--swell:14px"></i>
+    <i style="--x:14%;--y:63%;--size:3px;--opacity:.49;--period:11s;--phase:-1s;--swell:13px"></i>
+    <i style="--x:24%;--y:69%;--size:2px;--opacity:.5;--period:11s;--phase:-2s;--swell:15px"></i>
+    <i style="--x:34%;--y:74%;--size:3px;--opacity:.44;--period:11s;--phase:-3s;--swell:16px"></i>
+    <i style="--x:44%;--y:71%;--size:2px;--opacity:.49;--period:11s;--phase:-4s;--swell:14px"></i>
+    <i style="--x:54%;--y:65%;--size:3px;--opacity:.48;--period:11s;--phase:-5s;--swell:12px"></i>
+    <i style="--x:64%;--y:64%;--size:2px;--opacity:.42;--period:11s;--phase:-6s;--swell:16px"></i>
+    <i style="--x:74%;--y:68%;--size:3px;--opacity:.46;--period:11s;--phase:-7s;--swell:13px"></i>
+    <i style="--x:84%;--y:74%;--size:2px;--opacity:.42;--period:11s;--phase:-8s;--swell:15px"></i>
+    <i style="--x:94%;--y:72%;--size:3px;--opacity:.49;--period:11s;--phase:-9s;--swell:12px"></i>
+    <i style="--x:6%;--y:84%;--size:2px;--opacity:.46;--period:12s;--phase:-2s;--swell:16px"></i>
+    <i style="--x:18%;--y:82%;--size:3px;--opacity:.48;--period:12s;--phase:-3s;--swell:15px"></i>
+    <i style="--x:26%;--y:87%;--size:2px;--opacity:.39;--period:12s;--phase:-4s;--swell:14px"></i>
+    <i style="--x:36%;--y:92%;--size:3px;--opacity:.36;--period:12s;--phase:-5s;--swell:17px"></i>
+    <i style="--x:46%;--y:87%;--size:2px;--opacity:.46;--period:12s;--phase:-6s;--swell:19px"></i>
+    <i style="--x:57%;--y:80%;--size:3px;--opacity:.45;--period:12s;--phase:-7s;--swell:17px"></i>
+    <i style="--x:67%;--y:81%;--size:2px;--opacity:.42;--period:12s;--phase:-8s;--swell:15px"></i>
+    <i style="--x:77%;--y:85%;--size:3px;--opacity:.46;--period:12s;--phase:-9s;--swell:16px"></i>
+    <i style="--x:87%;--y:91%;--size:3px;--opacity:.42;--period:12s;--phase:-10s;--swell:18px"></i>
+    <i style="--x:96%;--y:88%;--size:2px;--opacity:.45;--period:12s;--phase:-11s;--swell:15px"></i>
+  </div>
+  <main>
+    <section class="workspace" aria-labelledby="workspace-heading">
+      <div class="workspace-copy">
+        <p class="brand" lang="en">QWEN3-VL</p>
+        <h1 id="workspace-heading"><span id="rb-title">视频理解<br>与问答</span></h1>
+        <p class="intro rb-display"><span id="rb-subtitle">从画面理解视频</span></p>
+        <svg id="horizon-line" viewBox="0 0 132 9" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="horizon-ink" gradientUnits="userSpaceOnUse" x1="0" x2="132">
+              <stop stop-color="#7DE3E0" stop-opacity=".16" />
+              <stop offset=".54" stop-color="#7DE3E0" stop-opacity=".68" />
+              <stop offset="1" stop-color="#A78BFA" stop-opacity=".38" />
+            </linearGradient>
+          </defs>
+          <path d="M1 7.5H81l9-6 9 6h32" />
+        </svg>
+        <div class="file-tools">
+          <div class="file-picker">
+            <input id="file" type="file" accept=".mp4,video/mp4">
+            <label for="file">选择 MP4</label>
+            <span id="file-name">未选择文件</span>
+          </div>
+          <div class="actions">
+            <span class="rb-magnet-anchor"><button class="primary" id="upload" type="button" disabled>上传并分析</button></span>
+            <button id="retry" type="button" hidden>重新获取分析进度</button>
+          </div>
+          <progress id="analysis-progress" aria-label="分段分析进度" hidden></progress>
+          <p class="status" id="status" role="status"></p>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="screen-light" aria-hidden="true"></div>
+        <div class="panel screen-panel" id="screen-panel">
+          <div class="screen-label"><span>视频预览</span><span id="video-name" title="">等待选择</span></div>
+          <div class="screen-media">
+            <video id="player" controls playsinline preload="metadata" aria-label="原视频播放器"></video>
+            <div class="screen-empty" id="screen-empty"><span class="frame-mark" aria-hidden="true"></span><span>选择视频后在这里预览</span></div>
+          </div>
+          <div id="rb-glare" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+    <div class="results">
+    <section id="video-qa" aria-labelledby="video-qa-heading" hidden>
+      <h2 id="video-qa-heading">视频问答</h2>
+      <ol id="question-thread"></ol>
+      <form id="question-form">
+        <label for="question-scope">提问范围</label>
+        <select id="question-scope" disabled>
+          <option value="">整段视频</option>
+        </select>
+        <label for="question">对这段视频提问</label>
+        <div id="question-entry">
+          <input type="text" id="question" placeholder="例如：视频里的人在做什么？" maxlength="300" required disabled>
+          <div id="question-glyphs" aria-hidden="true"><span></span></div>
+        </div>
+        <span class="rb-magnet-anchor"><button class="primary" id="ask" type="submit" disabled>发送问题</button></span>
+        <button id="retry-answer" type="button" hidden>重新获取回答</button>
+        <p id="question-status" role="status"></p>
+      </form>
+    </section>
+    <section id="timeline" aria-labelledby="timeline-heading" hidden>
+      <h2 id="timeline-heading">分段结果</h2>
+      <ol id="segments"></ol>
+    </section>
+    </div>
+  </main>
+
+  <script>
+    const file = document.querySelector("#file");
+    const fileName = document.querySelector("#file-name");
+    const player = document.querySelector("#player");
+    const screenPanel = document.querySelector("#screen-panel");
+    const screenEmpty = document.querySelector("#screen-empty");
+    const videoName = document.querySelector("#video-name");
+    const progress = document.querySelector("#analysis-progress");
+    const upload = document.querySelector("#upload");
+    const retry = document.querySelector("#retry");
+    const status = document.querySelector("#status");
+    const timeline = document.querySelector("#timeline");
+    const segments = document.querySelector("#segments");
+    const videoQa = document.querySelector("#video-qa");
+    const questionThread = document.querySelector("#question-thread");
+    const questionForm = document.querySelector("#question-form");
+    const question = document.querySelector("#question");
+    const questionScope = document.querySelector("#question-scope");
+    const ask = document.querySelector("#ask");
+    const retryAnswer = document.querySelector("#retry-answer");
+    const questionStatus = document.querySelector("#question-status");
+    const rows = new Map();
+    let uploadId = null;
+    let canAsk = false;
+    let pendingQuestion = null;
+    let seekTimer;
+
+    function setPreview(source, name) {
+      if (player.src.startsWith("blob:")) URL.revokeObjectURL(player.src);
+      if (source) player.src = source;
+      else {
+        player.removeAttribute("src");
+        player.load();
+      }
+      screenEmpty.hidden = Boolean(source);
+      videoName.textContent = name;
+      videoName.title = name;
+    }
+
+    function seekTo(start, button) {
+      player.currentTime = start;
+      for (const selected of document.querySelectorAll("button[aria-current='true']")) {
+        selected.removeAttribute("aria-current");
+      }
+      button.setAttribute("aria-current", "true");
+      screenPanel.classList.add("is-seeking");
+      clearTimeout(seekTimer);
+      seekTimer = setTimeout(() => screenPanel.classList.remove("is-seeking"), 550);
+    }
+
+    function clearTimeline() {
+      rows.clear();
+      segments.replaceChildren();
+      timeline.hidden = true;
+      progress.hidden = true;
+      retry.hidden = true;
+      uploadId = null;
+      canAsk = false;
+      pendingQuestion = null;
+      videoQa.hidden = true;
+      questionThread.replaceChildren();
+      question.value = "";
+      updateQuestionScopes([]);
+      retryAnswer.hidden = true;
+      setQuestionStatus("");
+    }
+
+    function setStatus(message, isError = false) {
+      if (status.textContent !== message) status.textContent = message;
+      status.classList.toggle("error", isError);
+    }
+
+    function setBusy(busy) {
+      file.disabled = busy;
+      upload.disabled = busy || !file.files.length;
+      retry.disabled = busy;
+      questionScope.disabled = question.disabled = ask.disabled = busy || !canAsk || Boolean(pendingQuestion);
+      retryAnswer.disabled = busy;
+    }
+
+    function saveVideoId(id) {
+      const page = new URL(location.href);
+      if (id) page.searchParams.set("video", id);
+      else page.searchParams.delete("video");
+      history.replaceState(null, "", page);
+    }
+
+    function formatTime(seconds) {
+      const tenths = Math.round(seconds * 10);
+      const minutes = String(Math.floor(tenths / 600)).padStart(2, "0");
+      const remainder = String(Math.floor(tenths / 10) % 60).padStart(2, "0");
+      return `${minutes}:${remainder}${tenths % 10 ? `.${tenths % 10}` : ""}`;
+    }
+
+    function updateQuestionScopes(items) {
+      const wholeVideo = document.createElement("option");
+      wholeVideo.value = "";
+      wholeVideo.textContent = "整段视频";
+      questionScope.replaceChildren(wholeVideo);
+      for (const segment of items) {
+        const option = document.createElement("option");
+        option.value = segment.filename;
+        option.textContent = `${formatTime(segment.start)}–${formatTime(segment.end)}`;
+        questionScope.append(option);
+      }
+    }
+
+    function updateSegments(items) {
+      timeline.hidden = items.length === 0;
+      for (const segment of items) {
+        if (!rows.has(segment.filename)) {
+          const row = document.createElement("li");
+          const button = document.createElement("button");
+          button.type = "button";
+          button.textContent = `${formatTime(segment.start)}–${formatTime(segment.end)}`;
+          button.addEventListener("click", () => seekTo(segment.start, button));
+          const description = document.createElement("p");
+          description.className = "description";
+          row.append(button, description);
+          segments.append(row);
+          rows.set(segment.filename, description);
+        }
+        const description = rows.get(segment.filename);
+        const failed = Boolean(segment.error) || segment.status === "error";
+        const running = ["running", "analyzing"].includes(segment.status);
+        const message = failed ? (segment.error || "这段分析失败。")
+          : (segment.description || (running ? "正在分析…" : "等待分析"));
+        if (description.textContent !== message) {
+          description.textContent = message;
+          description.classList.toggle("revealed", Boolean(segment.description) && !failed);
+        }
+        description.classList.toggle("error", failed);
+        description.classList.toggle("muted", !failed && !segment.description);
+      }
+    }
+
+    function updateProgress(job) {
+      updateSegments(job.segments);
+      const done = job.segments.filter(segment => segment.description && !segment.error).length;
+      const failed = job.segments.filter(segment => segment.error || segment.status === "error").length;
+      const counts = `已完成 ${done}/${job.segments.length} 段${failed ? `，${failed} 段失败` : ""}。`;
+      progress.hidden = !job.segments.length;
+      progress.max = Math.max(1, job.segments.length);
+      progress.value = done + failed;
+      if (["done", "error"].includes(job.status)) {
+        canAsk = done > 0;
+        videoQa.hidden = !canAsk;
+        updateQuestionScopes(job.segments.filter(segment => segment.description && !segment.error));
+      }
+      if (job.status === "error") {
+        setStatus(`${job.message || "分析任务失败。"} ${counts}`, true);
+      } else if (job.status === "done") {
+        setStatus(`分析结束。${counts}`);
+      } else if (job.status === "queued") {
+        setStatus(`已完成切分，等待分析。${counts}`);
+      } else {
+        setStatus(job.message ? `${job.message} ${counts}` : `正在逐段分析。${counts}`);
+      }
+    }
+
+    function setQuestionStatus(message, failed = false) {
+      if (questionStatus.textContent !== message) questionStatus.textContent = message;
+      questionStatus.classList.toggle("error", failed);
+    }
+
+    function appendQuestion(text, scopeLabel) {
+      const row = document.createElement("li");
+      const prompt = document.createElement("strong");
+      prompt.textContent = text;
+      const scope = document.createElement("p");
+      scope.className = "description muted";
+      scope.textContent = scopeLabel;
+      const answer = document.createElement("p");
+      answer.className = "description muted";
+      answer.textContent = "等待回答…";
+      const citations = document.createElement("div");
+      citations.className = "citation-buttons";
+      row.append(prompt, scope, answer, citations);
+      questionThread.append(row);
+      return { answer, citations };
+    }
+
+    function showAnswer(entry, result) {
+      const failed = result.status === "error";
+      entry.answer.textContent = failed ? (result.error || "回答失败，请重新提问。") : result.answer;
+      entry.answer.classList.remove("muted");
+      entry.answer.classList.toggle("error", failed);
+      if (!failed) entry.answer.classList.add("revealed");
+
+      const citations = (result.citations || []).filter(item => Number.isFinite(item.start) && Number.isFinite(item.end));
+      if (failed || !citations.length) return;
+      const label = document.createElement("span");
+      label.textContent = "参考片段";
+      entry.citations.append(label);
+      for (const citation of citations) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = `${formatTime(citation.start)}–${formatTime(citation.end)}`;
+        button.addEventListener("click", () => seekTo(citation.start, button));
+        entry.citations.append(button);
+      }
+    }
+
+    async function getAnswer() {
+      const entry = pendingQuestion;
+      let retries = 0;
+      while (true) {
+        let response;
+        let result;
+        try {
+          response = await fetch(entry.url, { cache: "no-store", signal: AbortSignal.timeout(10000) });
+          result = await response.json();
+          if (!response.ok) throw new Error("读取回答失败。");
+        } catch (error) {
+          if (response?.status === 404) {
+            showAnswer(entry, { status: "error", error: "找不到这次提问，请重新提问。" });
+            setQuestionStatus("", true);
+            pendingQuestion = null;
+            return;
+          }
+          retries += 1;
+          if (retries >= 4) {
+            setQuestionStatus("暂时无法获取回答，可以重新获取。", true);
+            retryAnswer.hidden = false;
+            return;
+          }
+          setQuestionStatus("连接中断，正在重试获取回答…");
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          continue;
+        }
+
+        retries = 0;
+        if (["done", "error"].includes(result.status)) {
+          showAnswer(entry, result);
+          setQuestionStatus("");
+          pendingQuestion = null;
+          return;
+        }
+        setQuestionStatus(result.status === "queued" ? "问题已排队。" : "正在回答…");
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
+    }
+
+    async function getAnalysis() {
+      let retries = 0;
+      while (true) {
+        let response;
+        let job;
+        try {
+          response = await fetch(`/analysis/${encodeURIComponent(uploadId)}`, {
+            cache: "no-store",
+            signal: AbortSignal.timeout(10000),
+          });
+          job = await response.json();
+          if (!response.ok) throw new Error(job.detail || "读取分析进度失败。");
+        } catch (error) {
+          if (response?.status === 404) {
+            setStatus("找不到这次分析任务，请重新上传视频。", true);
+            if (!file.files.length) setPreview(null, "等待选择");
+            saveVideoId(null);
+            return;
+          }
+          retries += 1;
+          if (retries >= 4) {
+            setStatus("暂时无法获取进度。已显示的结果会保留，可以重新获取进度。", true);
+            retry.hidden = false;
+            return;
+          }
+          setStatus("连接中断，正在重试获取进度…");
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          continue;
+        }
+
+        retries = 0;
+        updateProgress(job);
+        if (["done", "error"].includes(job.status)) return;
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
+    }
+
+    file.addEventListener("change", () => {
+      const video = file.files[0];
+      if (!video) return;
+      fileName.textContent = video.name;
+      fileName.title = video.name;
+      setPreview(URL.createObjectURL(video), video.name);
+      setStatus("");
+      clearTimeline();
+      saveVideoId(null);
+      setBusy(false);
+    });
+
+    upload.addEventListener("click", async () => {
+      const video = file.files[0];
+      if (!video) return;
+      if (video.size >= 80 * 1024 * 1024) {
+        setStatus("当前分享网站仅支持小于 80 MB 的 MP4，请压缩或截短后再上传。", true);
+        return;
+      }
+      const form = new FormData();
+      form.append("file", video);
+      clearTimeline();
+      setBusy(true);
+      setStatus("正在上传并切分…");
+
+      try {
+        const response = await fetch("/upload", { method: "POST", body: form }).catch(() => {
+          throw new Error("上传连接中断，请确认网页仍能打开，再点击「上传并分析」重试。");
+        });
+        const data = await response.json().catch(() => null);
+        if (!response.ok) {
+          if (typeof data?.detail === "string" && data.detail.trim()) throw new Error(data.detail);
+          if (response.status === 413) throw new Error("视频太大，请上传小于 80 MB 的 MP4。");
+          if (response.status === 429) throw new Error("服务正忙，请稍后重新上传。");
+          throw new Error(`上传失败（HTTP ${response.status}），请稍后重新上传。`);
+        }
+        if (!/^[a-f0-9]{32}$/.test(data?.upload_id ?? "") || !Array.isArray(data.segments)) {
+          throw new Error("上传服务没有返回完整结果，请重新上传。");
+        }
+        uploadId = data.upload_id;
+        saveVideoId(uploadId);
+        updateSegments(data.segments);
+        setStatus(`切分完成，共 ${data.segments.length} 段，正在获取分析进度。`);
+        await getAnalysis();
+      } catch (error) {
+        setStatus(error.message || "上传或分析失败，请重试。", true);
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    retry.addEventListener("click", async () => {
+      retry.hidden = true;
+      setBusy(true);
+      try {
+        await getAnalysis();
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    questionForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (ask.disabled || !canAsk || !uploadId || pendingQuestion) return;
+      const text = question.value.trim();
+      if (!text) {
+        setQuestionStatus("请输入问题。", true);
+        return;
+      }
+      setBusy(true);
+      setQuestionStatus("正在发送问题…");
+      try {
+        const url = `/analysis/${encodeURIComponent(uploadId)}/questions`;
+        const payload = { question: text };
+        if (questionScope.value) payload.focus = questionScope.value;
+        const scopeLabel = questionScope.selectedOptions[0].textContent;
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(10000),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(typeof result.detail === "string" ? result.detail : "提问失败，请重试。");
+        pendingQuestion = { ...appendQuestion(text, scopeLabel), url: `${url}/${encodeURIComponent(result.question_id)}` };
+        question.value = "";
+        await getAnswer();
+      } catch (error) {
+        setQuestionStatus(error.message || "提问失败，请重试。", true);
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    retryAnswer.addEventListener("click", async () => {
+      if (retryAnswer.disabled || !pendingQuestion) return;
+      retryAnswer.hidden = true;
+      setBusy(true);
+      try {
+        await getAnswer();
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    async function restoreAnalysis() {
+      const id = new URL(location.href).searchParams.get("video");
+      if (!id) return;
+      if (!/^[0-9a-f]{32}$/.test(id)) {
+        saveVideoId(null);
+        return;
+      }
+      uploadId = id;
+      setPreview(`/analysis/${encodeURIComponent(id)}/video`, "已上传视频");
+      setBusy(true);
+      setStatus("正在恢复上次分析…");
+      try {
+        await getAnalysis();
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    restoreAnalysis();
+  </script>
+  <div id="rb-global" aria-hidden="true"></div>
+  <div id="rb-splash" aria-hidden="true"></div>
+  <div id="gsap-controller" aria-hidden="true"></div>
+  <script>/* __REACT_BITS_JS__ */</script>
+</body>
+</html>

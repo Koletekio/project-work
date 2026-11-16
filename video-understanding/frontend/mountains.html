@@ -1,0 +1,64 @@
+  <svg class="mountain-horizon" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="ridge-distant" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop stop-color="#766794" stop-opacity=".42" />
+        <stop offset="1" stop-color="#262039" stop-opacity=".12" />
+      </linearGradient>
+      <linearGradient id="ridge-middle" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop stop-color="#494064" stop-opacity=".65" />
+        <stop offset="1" stop-color="#201a32" stop-opacity=".52" />
+      </linearGradient>
+      <linearGradient id="ridge-close" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop stop-color="#332948" stop-opacity=".84" />
+        <stop offset="1" stop-color="#17132d" stop-opacity=".93" />
+      </linearGradient>
+      <linearGradient id="ridge-mist-blue" x2="0" y2="1">
+        <stop stop-color="#7295ae" stop-opacity=".74" />
+        <stop offset="1" stop-color="#253850" stop-opacity=".05" />
+      </linearGradient>
+      <linearGradient id="ridge-mist-lavender" x2="0" y2="1">
+        <stop stop-color="#797594" stop-opacity=".68" />
+        <stop offset="1" stop-color="#2a273c" stop-opacity="0" />
+      </linearGradient>
+      <linearGradient id="ridge-dusk-plum" x2="0" y2="1">
+        <stop stop-color="#895a76" stop-opacity=".76" />
+        <stop offset="1" stop-color="#36243e" stop-opacity=".16" />
+      </linearGradient>
+      <radialGradient id="valley-mist-blue">
+        <stop stop-color="#9fb6d2" stop-opacity=".46" />
+        <stop offset=".4" stop-color="#91a9c7" stop-opacity=".29" />
+        <stop offset="1" stop-color="#91a9c7" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="valley-mist-lilac">
+        <stop stop-color="#b2a5c9" stop-opacity=".34" />
+        <stop offset=".48" stop-color="#a19dc4" stop-opacity=".19" />
+        <stop offset="1" stop-color="#a19dc4" stop-opacity="0" />
+      </radialGradient>
+      <path id="ridge-shape-distant" d="M-20 272 38 258 76 233 110 217 141 184 160 175 190 142 214 130 237 141 262 161 286 166 323 197 355 207 388 235 435 245 475 227 516 203 550 188 583 147 603 134 639 88 661 75 682 83 704 112 723 132 756 150 778 183 812 195 844 225 883 239 925 218 951 194 983 176 1017 129 1032 115 1051 81 1081 55 1102 78 1133 94 1154 132 1177 148 1206 178 1238 182 1267 200 1298 218 1342 220 1390 244 1460 253V460H-20Z" />
+      <path id="ridge-shape-middle" d="M-20 291 47 271 88 231 132 213 169 197 193 169 226 176 251 198 291 209 315 241 340 251 372 280 422 285 472 260 497 241 537 226 571 205 615 214 646 249 698 270 729 291 781 288 824 259 850 233 880 222 913 182 943 163 965 173 991 199 1023 209 1048 242 1081 251 1103 270 1142 283 1177 262 1216 231 1241 211 1268 217 1304 244 1331 267 1378 272 1460 307V460H-20Z" />
+      <path id="ridge-shape-close" d="M-20 315 37 292 63 256 89 241 123 250 149 270 177 281 203 314 239 326 277 346 329 355 361 338 388 322 416 318 446 293 469 280 493 289 520 309 552 315 581 340 614 350 663 361 711 350 748 330 783 324 823 303 858 311 882 329 917 340 950 351 994 350 1032 335 1051 313 1083 302 1119 282 1152 282 1186 308 1219 320 1247 338 1282 322 1326 285 1350 279 1378 251 1410 243 1460 278V460H-20Z" />
+    </defs>
+    <g class="ridge ridge-far" data-speed="0.85">
+      <use href="#ridge-shape-distant" fill="url(#ridge-distant)" />
+      <use class="ridge-tint" href="#ridge-shape-distant" fill="url(#ridge-mist-blue)" />
+      <path class="ridge-contour" d="M76 233 110 217 141 184 160 175 190 142 214 130 237 141 262 161 286 166 323 197M516 203 550 188 583 147 603 134 639 88 661 75 682 83 704 112 723 132 756 150 778 183M951 194 983 176 1017 129 1032 115 1051 81 1081 55 1102 78 1133 94 1154 132 1177 148 1206 178" />
+      <path class="ridge-fold" d="m214 130 17 39 41 36 14 28 44 26-28-7-57-20-48-45ZM661 75l-9 35 33 45 12 35 57 34-44-10-53-30-22-32ZM1081 55l-10 48 24 40 5 40 59 47-40-11-55-37-24-57Z" />
+    </g>
+    <g class="ridge ridge-mid" data-speed="0.95">
+      <use href="#ridge-shape-middle" fill="url(#ridge-middle)" />
+      <use class="ridge-tint" href="#ridge-shape-middle" fill="url(#ridge-mist-lavender)" />
+      <path class="ridge-contour" d="M88 231 132 213 169 197 193 169 226 176 251 198 291 209 315 241 340 251M497 241 537 226 571 205 615 214 646 249 698 270M824 259 850 233 880 222 913 182 943 163 965 173 991 199 1023 209 1048 242 1081 251M1177 262 1216 231 1241 211 1268 217 1304 244 1331 267" />
+      <path class="ridge-fold" d="m193 169 7 43 36 38 7 29 57 41-54-22-39-27-46-47Zm378 36-18 32 41 44 25 15 21 31-27-11-66-35-25-40Zm372-42-9 33 32 48 13 41 46 37-49-22-46-45-17-39Z" />
+    </g>
+    <g class="ridge-mist">
+      <ellipse cx="243" cy="301" rx="374" ry="42" fill="url(#valley-mist-blue)" />
+      <ellipse cx="692" cy="321" rx="385" ry="44" fill="url(#valley-mist-lilac)" />
+      <ellipse cx="1151" cy="295" rx="414" ry="42" fill="url(#valley-mist-blue)" />
+    </g>
+    <g class="ridge ridge-near" data-speed="1.05">
+      <use href="#ridge-shape-close" fill="url(#ridge-close)" />
+      <use class="ridge-tint" href="#ridge-shape-close" fill="url(#ridge-dusk-plum)" />
+      <path class="ridge-contour" d="M37 292 63 256 89 241 123 250 149 270 177 281 203 314 239 326M361 338 388 322 416 318 446 293 469 280 493 289 520 309 552 315M711 350 748 330 783 324 823 303 858 311 882 329 917 340M1032 335 1051 313 1083 302 1119 282 1152 282 1186 308 1219 320 1247 338M1282 322 1326 285 1350 279 1378 251 1410 243" />
+      <path class="ridge-fold" d="m89 241-5 34 15 27 49 35 36 43-61-28-56-48-17-25Zm380 39-24 31 22 30 31 18 33 37-61-32-25-30-27-14Zm650 2-9 32 32 32 5 28 48 26-40-17-46-26-25-39Z" />
+    </g>
+  </svg>

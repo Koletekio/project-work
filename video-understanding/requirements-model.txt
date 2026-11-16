@@ -1,0 +1,6 @@
+accelerate==1.15.0
+av==19.0.2
+huggingface-hub==1.0.0rc4
+numpy==2.5.4
+safetensors==0.8.0
+transformers @ git+https://github.com/huggingface/transformers.git@7aa888b7fa477d13153ffbfe107dfbd6c696014a

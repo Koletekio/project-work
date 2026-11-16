@@ -1,0 +1,19 @@
+    .mountain-horizon {
+      position: fixed;
+      inset: auto 0 -28px;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: clamp(315px, 46svh, 470px);
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .ridge-tint { opacity: 0; }
+    .ridge-mist { opacity: .28; }
+    .ridge-contour { fill: none; stroke: rgb(182 166 208 / 20%); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+    .ridge-fold { fill: rgb(14 10 31 / 20%); }
+    .ridge-mid .ridge-contour { stroke: rgb(160 139 191 / 15%); }
+    .ridge-near .ridge-contour { stroke: rgb(156 139 184 / 12%); }
+    @media (max-width: 767px) {
+      .mountain-horizon { height: clamp(250px, 35svh, 315px); }
+    }

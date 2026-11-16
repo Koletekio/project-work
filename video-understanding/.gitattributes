@@ -1,0 +1,2 @@
+* text=auto
+server/index.html -diff -text linguist-generated=true
